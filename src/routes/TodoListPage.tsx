@@ -1,20 +1,18 @@
-import { useLoaderData } from 'react-router-dom'
+import TodoForm from '@/components/todo/TodoForm'
+import TodoList from '@/components/todo/TodoList'
+import { type Todo } from '@/types'
 
 export default function TodoListPage () {
-  const data = useLoaderData()
-
   return (
     <>
-      <h3>This is the list </h3>
-      <pre>
-        {JSON.stringify(data, null, 2)}
-      </pre>
+      <h3>Todo App</h3>
+      <TodoForm />
+      <TodoList />
     </>
   )
 }
 
-// TodoListPage.loader = loader
-TodoListPage.loader = async (): Promise<[]> => {
+TodoListPage.loader = async () => {
   const response = await fetch('http://localhost:3000/todos')
 
   if (!response.ok) {
@@ -24,5 +22,5 @@ TodoListPage.loader = async (): Promise<[]> => {
 
   const data = await response.json()
 
-  return data
+  return data as Todo[]
 }
